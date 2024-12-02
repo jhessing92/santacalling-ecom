@@ -6,7 +6,6 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    // Optimize chunk size
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
