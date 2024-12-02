@@ -12,7 +12,7 @@ export function Hero() {
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 font-christmas text-glow"
+          className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-8 font-christmas text-glow"
         >
           Bring the Magic of Santa to Your Home
         </motion.h1>
@@ -21,7 +21,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-lg sm:text-xl text-white/90 mb-12 max-w-3xl mx-auto font-sans leading-relaxed"
+          className="text-xl sm:text-2xl text-white/90 mb-12 max-w-3xl mx-auto font-christmas"
         >
           Limited Spots Available to Meet Santa This Christmas – Reserve Yours Today!
         </motion.p>

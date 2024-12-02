@@ -14,39 +14,25 @@
     cursor: pointer !important;
   }
 
-  h1, h2, h3, .christmas-font {
+  .font-christmas {
     font-family: 'Mountains of Christmas', cursive;
   }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
-@keyframes snowfall {
-  0% { transform: translateY(-10vh) translateX(0); opacity: 1; }
-  100% { transform: translateY(100vh) translateX(20px); opacity: 0; }
-}
-
-@keyframes soundWave {
-  0%, 100% { transform: scaleY(0.5); }
-  50% { transform: scaleY(1.5); }
-}
-
-.snowfall {
-  @apply w-2 h-2 bg-white rounded-full;
-  animation: snowfall linear forwards;
+.animate-gradient-x {
+  animation: gradient-x 3s ease infinite;
+  background-size: 200% 200%;
 }
 
 .text-glow {
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
-
-.bg-gradient-x {
-  @apply bg-gradient-to-r from-red-500 via-green-500 to-red-500 bg-[length:200%_200%] animate-gradient-x;
-}
-
-.perspective {
-  perspective: 1000px;
 }
