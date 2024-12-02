@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, X, Phone, Calendar, Clock, Sparkles } from 'lucide-react';
-import { CalendarIntegration } from '../calendar/CalendarIntegration';
+import { CalendlyScheduler } from '../calendar/CalendlyScheduler';
 
 interface QuickPackageModalProps {
   isOpen: boolean;
@@ -13,23 +13,16 @@ interface QuickPackageModalProps {
 export function QuickPackageModal({ isOpen, onClose }: QuickPackageModalProps) {
   const navigate = useNavigate();
   const [showScheduler, setShowScheduler] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<string>('');
-  const [selectedTime, setSelectedTime] = useState<string>('');
-  const [email, setEmail] = useState('');
 
   const handleCallNow = () => {
     navigate('/santa-call');
     onClose();
   };
 
-  const handleScheduleCall = () => {
-    if (selectedDate && selectedTime) {
-      const dateTime = new Date(`${selectedDate}T${selectedTime}`);
-      // Here you would typically make an API call to schedule the call
-      console.log('Scheduled for:', dateTime, 'Email:', email);
-      navigate('/santa-call');
-      onClose();
-    }
+  const handleScheduled = (eventUri: string) => {
+    console.log('Scheduled event:', eventUri);
+    navigate('/santa-call');
+    onClose();
   };
 
   return (
@@ -80,62 +73,10 @@ export function QuickPackageModal({ isOpen, onClose }: QuickPackageModalProps) {
             </div>
 
             {showScheduler ? (
-              <div className="space-y-6">
-                <div className="flex items-center justify-center mb-4">
-                  <div className="bg-red-500/20 p-3 rounded-full">
-                    <Clock className="w-8 h-8 text-red-500" />
-                  </div>
-                </div>
-
-                <h3 className="text-2xl font-bold text-white text-center mb-3 font-christmas">
-                  Schedule Your Santa Call
-                </h3>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-white mb-2">Select Date</label>
-                    <input
-                      type="date"
-                      value={selectedDate}
-                      onChange={(e) => setSelectedDate(e.target.value)}
-                      className="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 
-                               text-white focus:outline-none focus:border-red-500/50"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-white mb-2">Select Time</label>
-                    <input
-                      type="time"
-                      value={selectedTime}
-                      onChange={(e) => setSelectedTime(e.target.value)}
-                      className="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 
-                               text-white focus:outline-none focus:border-red-500/50"
-                    />
-                  </div>
-
-                  {selectedDate && selectedTime && (
-                    <CalendarIntegration
-                      dateTime={new Date(`${selectedDate}T${selectedTime}`)}
-                      email={email}
-                      onEmailChange={setEmail}
-                    />
-                  )}
-
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={handleScheduleCall}
-                    disabled={!selectedDate || !selectedTime || !email}
-                    className="w-full py-3 px-6 bg-gradient-to-r from-red-500 to-green-500 
-                             text-white font-bold rounded-lg shadow-lg shadow-red-500/30 
-                             hover:shadow-red-500/50 transition-all duration-300 font-christmas
-                             disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Schedule Call
-                  </motion.button>
-                </div>
-              </div>
+              <CalendlyScheduler 
+                onScheduled={handleScheduled}
+                onBack={() => setShowScheduler(false)}
+              />
             ) : (
               <>
                 <div className="flex items-center justify-center mb-4">
