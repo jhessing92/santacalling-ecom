@@ -2,24 +2,19 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ElevenLabsWidget } from '../components/chat/ElevenLabsWidget';
 import { PaywallOverlay } from '../components/payment/PaywallOverlay';
-import { CallScheduler } from '../components/chat/CallScheduler';
+import { CallPreparation } from '../components/chat/CallPreparation';
 
 export function SantaCallPage() {
   const [hasPaid, setHasPaid] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const [showWidget, setShowWidget] = useState(false);
-  const [scheduledTime, setScheduledTime] = useState<Date | null>(null);
 
   const handlePaymentSuccess = () => {
     setHasPaid(true);
   };
 
-  const handleScheduleCall = (dateTime: Date) => {
-    setScheduledTime(dateTime);
-    // Here you would typically make an API call to schedule the call
-    alert(`Call scheduled for ${dateTime.toLocaleString()}`);
-  };
-
-  const handleStartNow = () => {
+  const handleReadyForCall = () => {
+    setIsReady(true);
     setShowWidget(true);
   };
 
@@ -29,11 +24,8 @@ export function SantaCallPage() {
         <div className="w-full max-w-4xl mx-auto mt-[-10%]">
           {!hasPaid ? (
             <PaywallOverlay onPaymentSuccess={handlePaymentSuccess} />
-          ) : !showWidget ? (
-            <CallScheduler 
-              onSchedule={handleScheduleCall}
-              onStartNow={handleStartNow}
-            />
+          ) : !isReady ? (
+            <CallPreparation onReady={handleReadyForCall} />
           ) : (
             <div className="flex flex-col items-center space-y-6">
               <div className="relative w-full h-[500px]">
