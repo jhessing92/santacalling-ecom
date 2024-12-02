@@ -14,6 +14,7 @@ interface PackageCardProps {
   onSelect: () => void;
   ctaText: string;
   highlight?: boolean;
+  visible?: boolean;
 }
 
 export function PackageCard({
@@ -25,11 +26,14 @@ export function PackageCard({
   features,
   onSelect,
   ctaText,
-  highlight
+  highlight,
+  visible = true
 }: PackageCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const priceDisplay = title === 'Santa Letter' || title === 'Santa Bundle' ? price : `${price}/min`;
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  if (!visible) return null;
 
   const handleClick = () => {
     if (id === 'bundle') {
@@ -39,6 +43,11 @@ export function PackageCard({
     }
   };
 
+  const handleInteraction = () => {
+    setIsHovered(true);
+    setHasInteracted(true);
+  };
+
   return (
     <>
       <motion.div
@@ -46,9 +55,9 @@ export function PackageCard({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
         className="relative h-full"
-        onMouseEnter={() => setIsHovered(true)}
+        onMouseEnter={handleInteraction}
         onMouseLeave={() => setIsHovered(false)}
-        onTouchStart={() => setIsHovered(true)}
+        onTouchStart={handleInteraction}
         onTouchEnd={() => setIsHovered(false)}
       >
         {highlight && (
@@ -99,34 +108,13 @@ export function PackageCard({
                          hover:shadow-red-500/50 transition-all duration-300 mb-3 sm:mb-4
                          transform hover:scale-105 font-christmas text-sm sm:text-base"
               >
-                {ctaText} — ${priceDisplay}
+                {ctaText} — ${price}
               </button>
 
               <p className="text-white/80 text-center text-xs sm:text-sm">
                 {description}
               </p>
             </div>
-
-            {/* Mobile Swipe Indicator */}
-            <motion.div 
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 sm:hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: isHovered ? 0 : 1 }}
-              transition={{ duration: 0.2 }}
-            >
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                className="flex flex-col items-center text-white/70"
-              >
-                <ChevronUp className="w-5 h-5" />
-                <p className="text-xs">Swipe up for details</p>
-              </motion.div>
-            </motion.div>
 
             <AnimatePresence>
               {isHovered && (
@@ -149,7 +137,7 @@ export function PackageCard({
       <QuickPackageModal 
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        defaultPackage={id as 'call' | 'letter' | 'video' | 'bundle'}
+        defaultPackage={id as 'call'}
       />
     </>
   );
