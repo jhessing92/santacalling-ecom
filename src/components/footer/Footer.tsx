@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, Gift } from 'lucide-react';
+import { LegalLinks } from './LegalLinks';
+import { FooterCTA } from './FooterCTA';
+import { Copyright } from './Copyright';
 
 export function Footer() {
   const faqs = [
@@ -10,11 +13,11 @@ export function Footer() {
   ];
 
   return (
-    <footer className="w-full py-6 sm:py-8 px-4 bg-black/20 backdrop-blur-sm mt-8">
+    <footer className="w-full py-8 sm:py-12 px-4 bg-black/20 backdrop-blur-sm mt-8 sm:mt-12">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div className="text-center md:text-left">
-            <h3 className="text-lg font-bold text-white mb-3 font-christmas">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div>
+            <h3 className="text-xl font-bold text-white mb-4 font-christmas">
               Frequently Asked Questions
             </h3>
             <ul className="space-y-2">
@@ -32,39 +35,19 @@ export function Footer() {
           </div>
           
           <div className="text-center">
-            <div className="flex flex-col items-center gap-3">
+            <div className="flex flex-col items-center gap-4">
               <div className="flex items-center gap-2 text-white/90">
-                <Shield className="w-4 h-4 text-green-500" />
-                <span className="text-sm">Secure Payment</span>
+                <Shield className="w-5 h-5 text-green-500" />
+                <span>Secure Payment</span>
               </div>
-              <div className="flex items-center gap-2 text-white/90">
-                <Gift className="w-4 h-4 text-red-500" />
-                <span className="text-sm">100% Satisfaction Guarantee</span>
-              </div>
+              <FooterCTA />
             </div>
           </div>
 
-          <div className="text-center md:text-right">
-            <div className="flex flex-col items-center md:items-end gap-2">
-              <Link 
-                to="/terms" 
-                className="text-white/70 hover:text-white transition-colors text-sm"
-              >
-                Terms & Conditions
-              </Link>
-              <Link 
-                to="/privacy" 
-                className="text-white/70 hover:text-white transition-colors text-sm"
-              >
-                Privacy Policy
-              </Link>
-            </div>
-          </div>
+          <LegalLinks />
         </div>
 
-        <div className="text-center text-white/60 text-xs border-t border-white/10 pt-6">
-          <p>© {new Date().getFullYear()} CallingSantaClaus.com. All rights reserved.</p>
-        </div>
+        <Copyright />
       </div>
     </footer>
   );
