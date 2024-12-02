@@ -31,7 +31,7 @@ const videos = [
   },
   {
     id: '4',
-    url: "https://firebasestorage.googleapis.com/v0/b/santa-calls-ffa98.firebasestorage.app/o/Santa%20UGC%20Vids%2FScreenRecording_12-01-2024%2023-55-25_1.MP4?alt=media&token=27d8902b-11e9-4768-bd07-617974e0d60f",
+    url: "https://firebasestorage.googleapis.com/v0/b/santa-calls-ffa98.firebasestorage.app/o/Santa%20UGC%20Vids%2F5.mov?alt=media&token=5413edab-f34b-4622-a039-e1f90f137c83",
     username: '@FestiveFamily',
     reactions: { hearts: 634, likes: '1.5k' },
     product: 'santa-bundle',
@@ -39,7 +39,7 @@ const videos = [
   },
   {
     id: '5',
-    url: "https://firebasestorage.googleapis.com/v0/b/santa-calls-ffa98.firebasestorage.app/o/Santa%20UGC%20Vids%2F5.mov?alt=media&token=5413edab-f34b-4622-a039-e1f90f137c83",
+    url: "https://firebasestorage.googleapis.com/v0/b/santa-calls-ffa98.firebasestorage.app/o/Santa%20UGC%20Vids%2FScreenRecording_12-01-2024%2023-55-46_1.mov?alt=media&token=836576de-3ad2-4460-bbad-85e372aa60b8",
     username: '@JoyfulKids',
     reactions: { hearts: 521, likes: '1.3k' },
     product: 'santa-call',
@@ -73,9 +73,9 @@ export function UGCSection() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center mt-8 text-white/80"
+          className="text-center mt-8"
         >
-          <p className="text-lg font-christmas">
+          <p className="text-xl sm:text-2xl font-christmas text-white/90">
             Want to see your family featured here? Share your Santa experience on TikTok with #SantaMagic!
           </p>
         </motion.div>
