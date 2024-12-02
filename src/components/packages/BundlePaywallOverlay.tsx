@@ -44,7 +44,7 @@ export function BundlePaywallOverlay({ onClose, onPaymentSuccess }: BundlePaywal
 
           <div className="grid grid-cols-1 gap-3">
             <div className="bg-white/5 p-3 rounded-lg border border-white/10">
-              <h4 className="text-white font-bold mb-1 font-christmas">Santa Call</h4>
+              <h4 className="text-white font-bold mb-1 font-christmas">Santa Audio Call</h4>
               <p className="text-white/80 text-sm">Live conversation with Santa himself</p>
             </div>
             <div className="bg-white/5 p-3 rounded-lg border border-white/10">
@@ -53,7 +53,7 @@ export function BundlePaywallOverlay({ onClose, onPaymentSuccess }: BundlePaywal
             </div>
             <div className="bg-white/5 p-3 rounded-lg border border-white/10">
               <h4 className="text-white font-bold mb-1 font-christmas">Santa Video</h4>
-              <p className="text-white/80 text-sm">Custom video message from Santa</p>
+              <p className="text-white/80 text-sm">30-second custom video message from Santa</p>
             </div>
           </div>
 
@@ -69,9 +69,9 @@ export function BundlePaywallOverlay({ onClose, onPaymentSuccess }: BundlePaywal
             </div>
             <ul className="space-y-2 text-sm">
               {[
-                '🎅 Live call with Santa',
+                '🎅 Live audio call with Santa',
                 '✉️ Personalized North Pole letter',
-                '🎥 Custom video message',
+                '🎥 30-second custom video message',
                 '🎄 Priority access to all services',
                 '⭐ Special bundle-only perks',
                 '💝 Save $5 compared to individual purchases'

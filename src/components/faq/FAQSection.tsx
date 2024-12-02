@@ -16,7 +16,7 @@ const faqs = [
     answer: "We offer a 100% satisfaction guarantee. If you're not completely happy with your Santa experience, we'll provide a full refund within 24 hours of the service."
   },
   {
-    question: "How long are the Santa video calls?",
+    question: "How long are the Santa audio calls?",
     answer: "Santa calls typically last 5-10 minutes, giving your child plenty of time to share their Christmas wishes and have a magical conversation with Santa."
   },
   {
@@ -24,7 +24,7 @@ const faqs = [
     answer: "Letters from Santa are typically delivered within 3-5 business days via priority mail, ensuring they arrive fresh from the North Pole!"
   },
   {
-    question: "Is the video call recorded?",
+    question: "Is the audio call recorded?",
     answer: "Yes! You'll receive a recording of your child's magical moment with Santa that you can treasure forever and share with family."
   }
 ];
