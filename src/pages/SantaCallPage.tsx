@@ -1,31 +1,69 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ElevenLabsWidget } from '../components/chat/ElevenLabsWidget';
 import { PaywallOverlay } from '../components/payment/PaywallOverlay';
+import { AudioWaves } from '../components/chat/AudioWaves';
+import { CallScheduler } from '../components/chat/CallScheduler';
 
 export function SantaCallPage() {
   const [hasPaid, setHasPaid] = useState(false);
+  const [showWidget, setShowWidget] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isUserSpeaking, setIsUserSpeaking] = useState(false);
+  const [scheduledTime, setScheduledTime] = useState<Date | null>(null);
 
   const handlePaymentSuccess = () => {
     setHasPaid(true);
   };
 
-  return (
-    <div className="max-w-6xl mx-auto px-4">
-      <div className="text-center mb-8">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 text-glow font-christmas">
-          Talk to Santa
-        </h1>
-        <p className="text-white/90 text-sm sm:text-lg">
-          Have a magical conversation with Santa Claus!
-        </p>
-      </div>
+  const handleScheduleCall = (dateTime: Date) => {
+    setScheduledTime(dateTime);
+    // Here you would typically make an API call to schedule the call
+    alert(`Call scheduled for ${dateTime.toLocaleString()}`);
+  };
 
-      <div className="bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-xl border-2 border-red-500/30">
-        <div className="relative h-[500px]">
+  const handleStartNow = () => {
+    setShowWidget(true);
+  };
+
+  const handleSpeakingStateChange = (santaSpeaking: boolean, userSpeaking: boolean) => {
+    setIsSpeaking(santaSpeaking);
+    setIsUserSpeaking(userSpeaking);
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <div className="flex-grow flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-4xl mx-auto mt-[-10%]">
           {!hasPaid ? (
             <PaywallOverlay onPaymentSuccess={handlePaymentSuccess} />
+          ) : !showWidget ? (
+            <CallScheduler 
+              onSchedule={handleScheduleCall}
+              onStartNow={handleStartNow}
+            />
           ) : (
-            <ElevenLabsWidget skipPaywall={true} />
+            <div className="flex flex-col items-center space-y-6">
+              <div className="relative w-full h-[500px]">
+                <ElevenLabsWidget 
+                  skipPaywall={true} 
+                  onSpeakingStateChange={handleSpeakingStateChange}
+                />
+              </div>
+              <AnimatePresence>
+                {(isUserSpeaking || isSpeaking) && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    className="flex flex-col gap-4 items-center"
+                  >
+                    {isUserSpeaking && <AudioWaves isActive={true} isSanta={false} />}
+                    {isSpeaking && <AudioWaves isActive={true} isSanta={true} />}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           )}
         </div>
       </div>
