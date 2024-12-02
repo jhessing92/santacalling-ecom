@@ -7,7 +7,7 @@ import { SnowflakeDivider } from '../how-it-works/SnowflakeDivider';
 const videos = [
   {
     id: '1',
-    url: "https://firebasestorage.googleapis.com/v0/b/santa-calls-ffa98.firebasestorage.app/o/Santa%20UGC%20Vids%2FScreenRecording_12-01-2024%2023-54-19_1.MP4?alt=media&token=d283dfa1-37bd-4b32-99b7-d89aada7e511",
+    url: "https://firebasestorage.googleapis.com/v0/b/santa-calls-ffa98.firebasestorage.app/o/Santa%20UGC%20Vids%2F4.mov?alt=media&token=0607054d-6679-4c07-a898-808036290c9b",
     username: '@HappyMom23',
     reactions: { hearts: 423, likes: '1.2k' },
     product: 'santa-call',
@@ -39,7 +39,7 @@ const videos = [
   },
   {
     id: '5',
-    url: "https://firebasestorage.googleapis.com/v0/b/santa-calls-ffa98.firebasestorage.app/o/Santa%20UGC%20Vids%2FScreenRecording_12-01-2024%2023-55-46_1.mov?alt=media&token=836576de-3ad2-4460-bbad-85e372aa60b8",
+    url: "https://firebasestorage.googleapis.com/v0/b/santa-calls-ffa98.firebasestorage.app/o/Santa%20UGC%20Vids%2F5.mov?alt=media&token=5413edab-f34b-4622-a039-e1f90f137c83",
     username: '@JoyfulKids',
     reactions: { hearts: 521, likes: '1.3k' },
     product: 'santa-call',
