@@ -41,7 +41,7 @@ END:VCALENDAR`;
   return (
     <div className="space-y-4 mt-6">
       <div>
-        <label className="block text-white mb-2">Email for Reminder</label>
+        <label className="block text-white mb-2">Email for Calendar Invite</label>
         <div className="flex items-center gap-2">
           <input
             type="email"
@@ -51,9 +51,6 @@ END:VCALENDAR`;
             className="flex-grow px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 
                      text-white focus:outline-none focus:border-red-500/50"
           />
-          <div className="bg-green-500/20 px-2 py-1 rounded text-green-400 text-xs">
-            15min reminder
-          </div>
         </div>
       </div>
 
@@ -83,7 +80,7 @@ END:VCALENDAR`;
 
       <p className="text-white/60 text-xs text-center">
         <Mail className="w-4 h-4 inline mr-1" />
-        We'll send you an email reminder 15 minutes before your call
+        Add to your calendar to get a reminder before the call
       </p>
     </div>
   );
