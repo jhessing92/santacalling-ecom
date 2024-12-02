@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Gift, PenLine, Sparkles } from 'lucide-react';
 import { Step } from './Step';
 import { SnowflakeDivider } from './SnowflakeDivider';
+import { QuickPackageModal } from '../packages/QuickPackageModal';
 
 const steps = [
   {
@@ -23,6 +24,8 @@ const steps = [
 ];
 
 export function HowItWorksSection() {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <section className="py-16 relative overflow-hidden">
       <SnowflakeDivider className="absolute top-0" />
@@ -56,6 +59,7 @@ export function HowItWorksSection() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => setShowModal(true)}
             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r 
                      from-green-500 to-green-600 text-white text-xl font-bold rounded-full 
                      shadow-lg shadow-green-500/50 hover:shadow-green-500/70 
@@ -75,6 +79,12 @@ export function HowItWorksSection() {
           </motion.div>
         </div>
       </div>
+
+      <QuickPackageModal 
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        defaultPackage="call"
+      />
 
       <SnowflakeDivider className="absolute bottom-0 rotate-180" />
     </section>
