@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Poppins', sans-serif;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='white'><path d='M12 0L14 7L19 2L16 9L23 7L16 11L23 14L16 12L19 19L14 14L12 21L10 14L5 19L8 12L1 14L8 11L1 7L8 9L5 2L10 7L12 0Z'/></svg>") 12 12, auto;
+  }
+
+  a, button, [role="button"] {
+    cursor: pointer !important;
+  }
+
+  h1, h2, h3, .christmas-font {
+    font-family: 'Mountains of Christmas', cursive;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes snowfall {
+  0% { transform: translateY(-10vh) translateX(0); opacity: 1; }
+  100% { transform: translateY(100vh) translateX(20px); opacity: 0; }
+}
+
+@keyframes soundWave {
+  0%, 100% { transform: scaleY(0.5); }
+  50% { transform: scaleY(1.5); }
+}
+
+.snowfall {
+  @apply w-2 h-2 bg-white rounded-full;
+  animation: snowfall linear forwards;
+}
+
+.text-glow {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.bg-gradient-x {
+  @apply bg-gradient-to-r from-red-500 via-green-500 to-red-500 bg-[length:200%_200%] animate-gradient-x;
+}
+
+.perspective {
+  perspective: 1000px;
+}
