@@ -10,7 +10,24 @@ import { HowItWorksSection } from '../components/how-it-works/HowItWorksSection'
 import { FAQSection } from '../components/faq/FAQSection';
 import { TestimonialSection } from '../components/testimonials/TestimonialSection';
 
+// Keep all packages defined but only show the call package in the UI
 const packages = [
+  {
+    id: 'call',
+    title: 'Santa Call',
+    price: 10,
+    icon: Phone,
+    description: 'Live audio conversation with Santa Claus himself!',
+    ctaText: 'Book Call with Santa',
+    features: [
+      '🎅 Personal audio chat with Santa',
+      '🎄 Share your Christmas wishes',
+      '🎁 Interactive conversation',
+      '⭐ Magical memories'
+    ],
+    route: '/santa-call',
+    visible: true // Only this package will be visible
+  },
   {
     id: 'bundle',
     title: 'Santa Bundle',
@@ -25,22 +42,8 @@ const packages = [
       '⭐ Save $5!'
     ],
     route: '/santa-bundle',
-    highlight: true
-  },
-  {
-    id: 'call',
-    title: 'Santa Call',
-    price: 10,
-    icon: Phone,
-    description: 'Live audio conversation with Santa Claus himself!',
-    ctaText: 'Book Call with Santa',
-    features: [
-      '🎅 Personal audio chat with Santa',
-      '🎄 Share your Christmas wishes',
-      '🎁 Interactive conversation',
-      '⭐ Magical memories'
-    ],
-    route: '/santa-call'
+    highlight: true,
+    visible: false
   },
   {
     id: 'letter',
@@ -55,7 +58,8 @@ const packages = [
       '🎁 North Pole stamp',
       '⭐ Keepsake envelope'
     ],
-    route: '/santa-letter'
+    route: '/santa-letter',
+    visible: false
   },
   {
     id: 'video',
@@ -70,7 +74,8 @@ const packages = [
       '🎁 Special message',
       '⭐ Shareable link'
     ],
-    route: '/santa-video'
+    route: '/santa-video',
+    visible: false
   }
 ];
 
@@ -95,13 +100,16 @@ export function PackagesPage() {
     navigate('/santa-bundle');
   };
 
+  // Filter to show only visible packages
+  const visiblePackages = packages.filter(pkg => pkg.visible);
+
   return (
     <>
       <Hero />
       
       <div className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {packages.map((pkg) => (
+        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-4 sm:gap-6 lg:gap-8 max-w-md mx-auto">
+          {visiblePackages.map((pkg) => (
             <div key={pkg.id} className="relative">
               <PackageCard
                 {...pkg}
