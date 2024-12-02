@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LucideIcon } from 'lucide-react';
+import { LucideIcon, ChevronUp } from 'lucide-react';
 import { PackageFeatures } from './PackageFeatures';
 import { motion, AnimatePresence } from 'framer-motion';
 import { QuickPackageModal } from './QuickPackageModal';
@@ -106,6 +106,27 @@ export function PackageCard({
                 {description}
               </p>
             </div>
+
+            {/* Mobile Swipe Indicator */}
+            <motion.div 
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 sm:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isHovered ? 0 : 1 }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="flex flex-col items-center text-white/70"
+              >
+                <ChevronUp className="w-5 h-5" />
+                <p className="text-xs">Swipe up for details</p>
+              </motion.div>
+            </motion.div>
 
             <AnimatePresence>
               {isHovered && (
