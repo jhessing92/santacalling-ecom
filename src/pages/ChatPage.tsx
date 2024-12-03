@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import {ElevenLabsWidget} from '../components/chat/ElevenLabsWidget.tsx'
 
 export function ChatPage() {
   const navigate = useNavigate();
@@ -33,10 +34,7 @@ export function ChatPage() {
           </div>
 
           <div className="aspect-video relative">
-            <elevenlabs-convai 
-              agent-id="HIKMybnhQi2KD0DfCTQs"
-              className="absolute inset-0 w-full h-full"
-            ></elevenlabs-convai>
+            <ElevenLabsWidget />
           </div>
         </motion.div>
       </div>

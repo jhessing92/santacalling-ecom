@@ -129,11 +129,11 @@ export function ElevenLabsWidget({ skipPaywall = false }: ElevenLabsWidgetProps)
   }, [loadScript]);
 
   return (
-    <div className="relative h-full flex items-center justify-center" role="region" aria-label="Santa's Chat Interface">
+    <div className="relative h-full  flex items-center justify-center" role="region" aria-label="Santa's Chat Interface">
       <VoiceAnimation isActive={isSpeaking} />
   
       <div
-        className="relative w-full h-full flex items-center justify-center rounded-xl overflow-hidden bg-white/5 border-2 border-red-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-red-500/30"
+        className="relative w-full h-full min-h-[400px]  flex items-center justify-center rounded-xl overflow-hidden bg-white/5 border-2 border-red-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-red-500/30"
         role="application"
         aria-busy={isLoading}
       >

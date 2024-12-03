@@ -1,7 +1,9 @@
 import { loadStripe } from '@stripe/stripe-js';
 
-const STRIPE_PUBLIC_KEY = 'pk_live_51QReI8CkS8uFBvgAzWsHXXc0NQOY0E9dGLOs0vkcB3BWDNKf4HiB76Xa5axws6sNvkiixtoiSRQyOYaZ3nBiQPh900beTLLflw';
-const PRICE_ID = 'price_1QReI8CkS8uFBvgAzWsHXXc0NQOY'; // Replace with your actual price ID
+// const STRIPE_PUBLIC_KEY = 'pk_live_51QReI8CkS8uFBvgAzWsHXXc0NQOY0E9dGLOs0vkcB3BWDNKf4HiB76Xa5axws6sNvkiixtoiSRQyOYaZ3nBiQPh900beTLLflw';
+const STRIPE_PUBLIC_KEY = "pk_test_51QReI8CkS8uFBvgAdt5xamaSXCSKAlaOqOIC0r9xiqSwu4WTY73fEONhP48oifnUefdfd5ZHzAH0MajNFmQhskev009lLocI85"
+// const PRICE_ID = 'price_1QReI8CkS8uFBvgAzWsHXXc0NQOY'; // Replace with your actual price ID
+const PRICE_ID = 'price_1QRxQmCkS8uFBvgAgLKIOYIR'
 
 export class PaymentService {
   private static instance: PaymentService;

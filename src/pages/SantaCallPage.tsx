@@ -1,26 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { PaywallOverlay } from '../components/payment/PaywallOverlay';
 import { CallPreparation } from '../components/chat/CallPreparation';
-import { usePayment } from '../hooks/usePayment';
+import { ElevenLabsWidget } from '../components/chat/ElevenLabsWidget'; // Import ElevenLabsWidget
 
 export function SantaCallPage() {
   const navigate = useNavigate();
-  const [hasPaid, setHasPaid] = useState(false);
+  const [hasPaid, setHasPaid] = useState(false); // Set to true for testing
   const [isReady, setIsReady] = useState(false);
 
-  usePayment({
-    onSuccess: () => setHasPaid(true),
-    onError: (error) => console.error('Payment error:', error)
-  });
+  // Function to check URL parameters
+  const checkSessionId = async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
+
+    if (sessionId) {
+      try {
+        let BASE_URL = "https://cws-api.keyspacestudio.tech"
+        // BASE_URL = "http://localhost:8080"
+        // Make the axios POST request to get session data
+        const response = await axios.post(`${BASE_URL}/v1/webhooks/session_data`, {
+          session_id: sessionId,
+        });
+
+        // Extract user email and status from the response
+        const { email, status } = response.data;
+
+        console.log('Session Data:', { email, status });
+
+        // If the status is 'complete', set hasPaid to true
+        if (status === 'complete') {
+          setHasPaid(true);
+        }
+      } catch (error) {
+        console.error('Error fetching session data:', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkSessionId(); // Check the session_id when the component mounts
+  }, []);
 
   const handlePaymentSuccess = () => {
     setHasPaid(true);
   };
 
   const handleReadyForCall = () => {
-    setIsReady(true);
-    navigate('/chat');
+    setIsReady(true); // Set isReady to true when the "Call Santa" button is clicked
   };
 
   return (
@@ -31,7 +59,9 @@ export function SantaCallPage() {
             <PaywallOverlay onPaymentSuccess={handlePaymentSuccess} />
           ) : !isReady ? (
             <CallPreparation onReady={handleReadyForCall} />
-          ) : null}
+          ) : (
+            <ElevenLabsWidget skipPaywall={false} /> // Show ElevenLabsWidget when isReady is true
+          )}
         </div>
       </div>
     </div>
