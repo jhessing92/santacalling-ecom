@@ -1,40 +1,27 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, ArrowLeft } from 'lucide-react';
-import { NotificationPreferences } from './NotificationPreferences.tsx';
-import { NotificationTiming } from '../../types/notification';
+import { Calendar } from 'lucide-react';
 
-interface CalendlySchedulerProps {
+interface SchedulerProps {
   onScheduled: (eventUri: string) => void;
   onBack: () => void;
 }
 
-export function CalendlyScheduler({ onScheduled, onBack }: CalendlySchedulerProps) {
+export function Scheduler({ onScheduled, onBack }: SchedulerProps) {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [email, setEmail] = useState('');
-  const [timing, setTiming] = useState<NotificationTiming>('15min');
 
-  const handleSchedule = async () => {
+  const handleSchedule = () => {
     if (!selectedDate || !selectedTime || !email) return;
-
-    const dateTime = new Date(`${selectedDate}T${selectedTime}`);
     
     // Simulate scheduling success
-    console.log(`Scheduled call for ${dateTime} with notification ${timing} before to ${email}`);
-    onScheduled('mock-event-uri');
+    const mockEventUri = `mock-event-${Date.now()}`;
+    onScheduled(mockEventUri);
   };
 
   return (
     <div className="space-y-6">
-      <button
-        onClick={onBack}
-        className="flex items-center gap-2 text-white/80 hover:text-white transition-colors"
-      >
-        <ArrowLeft className="w-5 h-5" />
-        <span>Back to Options</span>
-      </button>
-
       <div className="space-y-4">
         <div>
           <label className="block text-white mb-2">Select Date</label>
@@ -59,12 +46,17 @@ export function CalendlyScheduler({ onScheduled, onBack }: CalendlySchedulerProp
           />
         </div>
 
-        <NotificationPreferences
-          email={email}
-          onEmailChange={setEmail}
-          timing={timing}
-          onTimingChange={setTiming}
-        />
+        <div>
+          <label className="block text-white mb-2">Email for Reminder</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com"
+            className="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 
+                     text-white focus:outline-none focus:border-red-500/50"
+          />
+        </div>
 
         <motion.button
           whileHover={{ scale: 1.02 }}
