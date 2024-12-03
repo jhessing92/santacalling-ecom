@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, X, Phone, Calendar, Sparkles } from 'lucide-react';
-import { CalendlyScheduler } from '../calendar/CalendlyScheduler';
+import { Scheduler } from '../scheduler/Scheduler';
 
 interface QuickPackageModalProps {
   isOpen: boolean;
@@ -10,7 +10,7 @@ interface QuickPackageModalProps {
   defaultPackage?: 'call';
 }
 
-export function QuickPackageModal({ isOpen, onClose }: QuickPackageModalProps) {
+export function QuickPackageModal({ isOpen, onClose, defaultPackage = 'call' }: QuickPackageModalProps) {
   const navigate = useNavigate();
   const [showScheduler, setShowScheduler] = useState(false);
 
@@ -43,7 +43,6 @@ export function QuickPackageModal({ isOpen, onClose }: QuickPackageModalProps) {
                       backdrop-blur-md p-6 rounded-2xl"
             onClick={e => e.stopPropagation()}
           >
-            {/* Navigation */}
             <div className="absolute -top-12 left-0 right-0 flex justify-between items-center">
               <motion.button
                 whileHover={{ x: -4 }}
@@ -73,7 +72,7 @@ export function QuickPackageModal({ isOpen, onClose }: QuickPackageModalProps) {
             </div>
 
             {showScheduler ? (
-              <CalendlyScheduler 
+              <Scheduler 
                 onScheduled={handleScheduled}
                 onBack={() => setShowScheduler(false)}
               />
