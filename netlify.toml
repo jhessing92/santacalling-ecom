@@ -4,6 +4,7 @@
   
 [build.environment]
   NODE_VERSION = "20"
+  NPM_FLAGS = "--no-audit --no-fund"
 
 [[redirects]]
   from = "/*"
@@ -20,3 +21,6 @@
   minify = true
 [build.processing.images]
   compress = true
+
+[functions]
+  node_bundler = "esbuild"
