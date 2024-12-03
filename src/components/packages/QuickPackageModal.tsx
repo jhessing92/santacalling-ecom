@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, X, Phone, Calendar, Sparkles } from 'lucide-react';
+import { CalendlyScheduler } from '../calendar/CalendlyScheduler';
 
 interface QuickPackageModalProps {
   isOpen: boolean;
@@ -18,12 +19,10 @@ export function QuickPackageModal({ isOpen, onClose }: QuickPackageModalProps) {
     onClose();
   };
 
-  const handleSchedule = () => {
-    // Simple mock scheduling
-    setTimeout(() => {
-      navigate('/santa-call');
-      onClose();
-    }, 1000);
+  const handleScheduled = (eventUri: string) => {
+    console.log('Scheduled event:', eventUri);
+    navigate('/santa-call');
+    onClose();
   };
 
   return (
@@ -74,36 +73,10 @@ export function QuickPackageModal({ isOpen, onClose }: QuickPackageModalProps) {
             </div>
 
             {showScheduler ? (
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-white mb-2">Select Date</label>
-                  <input
-                    type="date"
-                    className="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 
-                             text-white focus:outline-none focus:border-red-500/50"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-white mb-2">Select Time</label>
-                  <input
-                    type="time"
-                    className="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 
-                             text-white focus:outline-none focus:border-red-500/50"
-                  />
-                </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleSchedule}
-                  className="w-full py-3 px-6 bg-gradient-to-r from-red-500 to-green-500 
-                           text-white font-bold rounded-lg shadow-lg shadow-red-500/30 
-                           hover:shadow-red-500/50 transition-all duration-300 font-christmas"
-                >
-                  Schedule Call
-                </motion.button>
-              </div>
+              <CalendlyScheduler 
+                onScheduled={handleScheduled}
+                onBack={() => setShowScheduler(false)}
+              />
             ) : (
               <>
                 <div className="flex items-center justify-center mb-4">
