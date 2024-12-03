@@ -1,8 +1,8 @@
-import React from 'react';
-import { loadStripe } from '@stripe/stripe-js';
+import React, { useEffect } from 'react';
 import { Gift, X, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { StripeService } from '../../services/stripe';
 
 interface PaywallOverlayProps {
   onPaymentSuccess: () => void;
@@ -11,11 +11,24 @@ interface PaywallOverlayProps {
 export function PaywallOverlay({ onPaymentSuccess }: PaywallOverlayProps) {
   const navigate = useNavigate();
 
-  const handlePayment = async () => {
-    // For demo purposes, we'll just simulate a successful payment
-    setTimeout(() => {
+  useEffect(() => {
+    const handlePaymentSuccess = () => {
       onPaymentSuccess();
-    }, 1000);
+    };
+
+    window.addEventListener('stripe-payment-success', handlePaymentSuccess);
+    return () => {
+      window.removeEventListener('stripe-payment-success', handlePaymentSuccess);
+    };
+  }, [onPaymentSuccess]);
+
+  const handlePayment = async () => {
+    const stripeService = StripeService.getInstance();
+    try {
+      await stripeService.handlePayment();
+    } catch (error) {
+      console.error('Payment failed:', error);
+    }
   };
 
   const handleBackToPackages = () => {
@@ -31,7 +44,6 @@ export function PaywallOverlay({ onPaymentSuccess }: PaywallOverlayProps) {
         className="max-w-md w-full relative"
         onClick={e => e.stopPropagation()}
       >
-        {/* Navigation Bar */}
         <div className="absolute -top-2 left-0 right-0 flex justify-between items-center">
           <motion.button
             whileHover={{ x: -4 }}
@@ -70,7 +82,7 @@ export function PaywallOverlay({ onPaymentSuccess }: PaywallOverlayProps) {
         
         <div className="bg-white/10 backdrop-blur-md p-4 rounded-xl mb-6">
           <div className="text-center">
-            <span className="text-3xl font-bold text-white">$20</span>
+            <span className="text-3xl font-bold text-white">$10</span>
             <span className="text-white/70 ml-2">per minute</span>
           </div>
           <ul className="mt-4 space-y-2">
