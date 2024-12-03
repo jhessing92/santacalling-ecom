@@ -6,6 +6,7 @@ import { Snowfall } from './components/Snowfall';
 import { ChristmasDecorations } from './components/ChristmasDecorations';
 import { PackagesPage } from './pages/PackagesPage';
 import { SantaCallPage } from './pages/SantaCallPage';
+import { ChatPage } from './pages/ChatPage';
 import { SantaLetterPage } from './pages/SantaLetterPage';
 import { SantaVideoPage } from './pages/SantaVideoPage';
 import { SantaBundlePage } from './pages/SantaBundlePage';
@@ -24,6 +25,7 @@ function App() {
             <Routes>
               <Route path="/" element={<PackagesPage />} />
               <Route path="/santa-call" element={<SantaCallPage />} />
+              <Route path="/chat" element={<ChatPage />} />
               <Route path="/santa-letter" element={<SantaLetterPage />} />
               <Route path="/santa-video" element={<SantaVideoPage />} />
               <Route path="/santa-bundle" element={<SantaBundlePage />} />
