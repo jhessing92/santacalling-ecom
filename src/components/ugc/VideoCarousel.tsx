@@ -17,7 +17,7 @@ interface VideoCarouselProps {
 }
 
 export function VideoCarousel({ videos }: VideoCarouselProps) {
-  const [currentIndex, setCurrentIndex] = useState(1); // Start with second video
+  const [currentIndex, setCurrentIndex] = useState(1);
   const [direction, setDirection] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -85,23 +85,20 @@ export function VideoCarousel({ videos }: VideoCarouselProps) {
     }, 500);
   };
 
-  // Auto-advance every 3 seconds
   useEffect(() => {
     const timer = setInterval(() => {
-      paginate(1);
+      if (!isTransitioning) {
+        paginate(1);
+      }
     }, 3000);
 
     return () => clearInterval(timer);
-  }, [currentIndex, isTransitioning]);
+  }, [isTransitioning]);
 
   const getPosition = (index: number) => {
     if (index === currentIndex) return "center";
-    if (
-      index === (currentIndex - 1 + videos.length) % videos.length
-    ) return "left";
-    if (
-      index === (currentIndex + 1) % videos.length
-    ) return "right";
+    if (index === (currentIndex - 1 + videos.length) % videos.length) return "left";
+    if (index === (currentIndex + 1) % videos.length) return "right";
     return "enter";
   };
 
@@ -126,7 +123,7 @@ export function VideoCarousel({ videos }: VideoCarouselProps) {
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={1}
-              onDragEnd={(e, { offset, velocity }) => {
+              onDragEnd={(_, { offset, velocity }) => {
                 const swipe = swipePower(offset.x, velocity.x);
                 if (swipe < -swipeConfidenceThreshold) {
                   paginate(1);

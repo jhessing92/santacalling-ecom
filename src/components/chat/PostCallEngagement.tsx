@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Share2, Star, Gift, Camera, Heart } from 'lucide-react';
+import { Share2, Star, Gift } from 'lucide-react';
 import { QuickPackageModal } from '../packages/QuickPackageModal';
 
 interface PostCallEngagementProps {
@@ -118,7 +118,7 @@ export function PostCallEngagement({ onClose }: PostCallEngagementProps) {
       <QuickPackageModal 
         isOpen={showPackageModal}
         onClose={() => setShowPackageModal(false)}
-        defaultPackage="bundle"
+        defaultPackage="call"
       />
     </AnimatePresence>
   );

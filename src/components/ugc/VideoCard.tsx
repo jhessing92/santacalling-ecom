@@ -150,7 +150,7 @@ export function VideoCard({ video, isActive, onNext, onPrev }: VideoCardProps) {
       <QuickPackageModal 
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        defaultPackage={video.product.split('-')[1] as 'call' | 'letter' | 'video' | 'bundle'}
+        defaultPackage="call"
       />
     </>
   );

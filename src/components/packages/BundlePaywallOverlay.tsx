@@ -1,5 +1,4 @@
 import React from 'react';
-import { PaymentService } from '../../services/payment';
 import { Gift, X } from 'lucide-react';
 
 interface BundlePaywallOverlayProps {
@@ -8,12 +7,11 @@ interface BundlePaywallOverlayProps {
 }
 
 export function BundlePaywallOverlay({ onClose, onPaymentSuccess }: BundlePaywallOverlayProps) {
-  const handlePayment = async () => {
-    const paymentService = PaymentService.getInstance();
-    const success = await paymentService.processPayment();
-    if (success) {
+  const handlePayment = () => {
+    // Simulate payment success
+    setTimeout(() => {
       onPaymentSuccess();
-    }
+    }, 1000);
   };
 
   return (
