@@ -83,7 +83,7 @@ export function PaywallOverlay({ onPaymentSuccess }: PaywallOverlayProps) {
         <div className="bg-white/10 backdrop-blur-md p-4 rounded-xl mb-6">
           <div className="text-center">
             <span className="text-3xl font-bold text-white">$10</span>
-            <span className="text-white/70 ml-2">per minute</span>
+            <span className="text-white/70 ml-2">per 1 minute call</span>
           </div>
           <ul className="mt-4 space-y-2">
             {[
