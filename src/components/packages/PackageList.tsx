@@ -1,12 +1,12 @@
 import React from 'react';
-import { Video, Mail, Phone, Gift } from 'lucide-react';
+import { Video, Mail, Phone, Gift, LucideIcon } from 'lucide-react';
 import { PackageCard } from './PackageCard';
 
 interface Package {
   id: string;
   title: string;
   price: number;
-  icon: React.ElementType;
+  icon: LucideIcon;
   description: string;
   ctaText: string;
   features: string[];
@@ -95,7 +95,15 @@ export function PackageList({ onSelect }: PackageListProps) {
       {visiblePackages.map((pkg) => (
         <div key={pkg.id} className="relative">
           <PackageCard
-            {...pkg}
+            id={pkg.id}
+            title={pkg.title}
+            price={pkg.price}
+            icon={pkg.icon}
+            description={pkg.description}
+            ctaText={pkg.ctaText}
+            features={pkg.features}
+            highlight={pkg.highlight}
+            visible={pkg.visible}
             onSelect={() => onSelect(pkg)}
           />
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LucideIcon, ChevronUp } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 import { PackageFeatures } from './PackageFeatures';
 import { motion, AnimatePresence } from 'framer-motion';
 import { QuickPackageModal } from './QuickPackageModal';
@@ -31,7 +31,6 @@ export function PackageCard({
 }: PackageCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
 
   if (!visible) return null;
 
@@ -43,11 +42,6 @@ export function PackageCard({
     }
   };
 
-  const handleInteraction = () => {
-    setIsHovered(true);
-    setHasInteracted(true);
-  };
-
   return (
     <>
       <motion.div
@@ -55,10 +49,8 @@ export function PackageCard({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
         className="relative h-full"
-        onMouseEnter={handleInteraction}
+        onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onTouchStart={handleInteraction}
-        onTouchEnd={() => setIsHovered(false)}
       >
         {highlight && (
           <motion.div
@@ -137,7 +129,7 @@ export function PackageCard({
       <QuickPackageModal 
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        defaultPackage={id as 'call'}
+        defaultPackage="call"
       />
     </>
   );

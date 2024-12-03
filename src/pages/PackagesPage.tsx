@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PaymentService } from '../services/payment';
 import { PackageList, Package } from '../components/packages/PackageList';
 import { BundlePaywallOverlay } from '../components/packages/BundlePaywallOverlay';
 import { Hero } from '../components/hero/Hero';
@@ -17,11 +16,10 @@ export function PackagesPage() {
     if (pkg.id === 'bundle') {
       setShowBundlePaywall(true);
     } else {
-      const paymentService = PaymentService.getInstance();
-      const success = await paymentService.processPayment();
-      if (success) {
+      // Simulate payment success
+      setTimeout(() => {
         navigate(pkg.route);
-      }
+      }, 1000);
     }
   };
 

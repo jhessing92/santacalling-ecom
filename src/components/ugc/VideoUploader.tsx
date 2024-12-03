@@ -20,13 +20,12 @@ export function VideoUploader({ onUploadComplete, onError }: VideoUploaderProps)
     const file = acceptedFiles[0];
     if (!file) return;
 
-    // Validate file type and size
     if (!file.type.includes('video/')) {
       onError('Please upload a video file');
       return;
     }
 
-    if (file.size > 100 * 1024 * 1024) { // 100MB limit
+    if (file.size > 100 * 1024 * 1024) {
       onError('Video must be less than 100MB');
       return;
     }
@@ -76,7 +75,7 @@ export function VideoUploader({ onUploadComplete, onError }: VideoUploaderProps)
 
   return (
     <div className="w-full">
-      <motion.div
+      <div
         {...getRootProps()}
         className={`
           relative border-2 border-dashed rounded-xl p-8
@@ -85,8 +84,6 @@ export function VideoUploader({ onUploadComplete, onError }: VideoUploaderProps)
           ${isDragActive ? 'border-red-500 bg-red-500/10' : 'border-white/30 hover:border-red-500/50'}
           ${isUploading ? 'pointer-events-none' : ''}
         `}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
       >
         <input {...getInputProps()} />
 
@@ -126,7 +123,7 @@ export function VideoUploader({ onUploadComplete, onError }: VideoUploaderProps)
             </div>
           </div>
         )}
-      </motion.div>
+      </div>
 
       {uploadProgress > 0 && uploadProgress < 100 && (
         <div className="mt-4">
