@@ -69,8 +69,7 @@ export function CallPreparation({ onReady }: CallPreparationProps) {
                  text-white font-bold rounded-xl shadow-lg shadow-red-500/30 
                  hover:shadow-red-500/50 transition-all duration-300 
                  font-christmas relative overflow-hidden group disabled:opacity-50
-                 disabled:cursor-not-allowed"
-      >
+                 disabled:cursor-not-allowed">
         <div className="relative flex items-center justify-center gap-2">
           <span className="text-lg">Call Santa</span>
           <ArrowRight className="w-5 h-5" />

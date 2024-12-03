@@ -1,115 +1,191 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { VoiceAnimation } from './VoiceAnimation';
-import { Mic, Loader2 } from 'lucide-react';
-import { PaywallOverlay } from './payment/PaywallOverlay';
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import { VoiceAnimation } from "./VoiceAnimation";
+import { Loader2 } from "lucide-react";
+import { WidgetLoader } from "./chat/WidgetLoader";
+import { WidgetError } from "./chat/WidgetError";
+import { SpeakingIndicator } from "./chat/SpeakingIndicator";
+import { Conversation } from "@11labs/client"; // Import the Conversation class
+import { PostCallEngagement } from "./chat/PostCallEngagement"; // Import PostCallEngagement
+import { FaPhone, FaPhoneSlash } from "react-icons/fa"; // Import icons
 
-export function ElevenLabsWidget() {
+// Local JSX type declaration
+declare module "react" {
+  namespace JSX {
+    interface IntrinsicElements {
+      "elevenlabs-convai": React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+    }
+  }
+}
+
+interface ElevenLabsWidgetProps {
+  skipPaywall?: boolean;
+}
+
+export function ElevenLabsWidget({ skipPaywall = false }: ElevenLabsWidgetProps) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [hasPaid, setHasPaid] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState("Disconnected");
+  const [agentStatus, setAgentStatus] = useState("Idle");
+  const [showPostCall, setShowPostCall] = useState(false); // State to control PostCallEngagement visibility
+
+  const conversationRef = useRef<Conversation | null>(null); // Ref for the conversation instance
 
   const loadScript = useCallback(() => {
-    const existingScript = document.querySelector('script[src="https://elevenlabs.io/convai-widget/index.js"]');
+    if (customElements.get("elevenlabs-convai")) {
+      // Custom element already defined, skip loading script
+      setIsLoading(false);
+      setError(null);
+      return null;
+    }
+
+    const existingScript = document.querySelector(
+      'script[src="https://elevenlabs.io/convai-widget/index.js"]'
+    );
     if (existingScript) {
       document.body.removeChild(existingScript);
     }
 
-    const script = document.createElement('script');
-    script.src = 'https://elevenlabs.io/convai-widget/index.js';
+    const script = document.createElement("script");
+    script.src = "https://elevenlabs.io/convai-widget/index.js";
     script.async = true;
-    
+
     script.onload = () => {
       setIsLoading(false);
       setError(null);
     };
-    
+
     script.onerror = () => {
       setIsLoading(false);
-      setError('Failed to load Santa\'s communication module. Please try refreshing the page.');
+      setError("Failed to load Santa's communication module. Please try refreshing the page.");
     };
 
     document.body.appendChild(script);
     return script;
   }, []);
 
+  const startConversation = async () => {
+    try {
+      // Request microphone permission
+      await navigator.mediaDevices.getUserMedia({ audio: true });
+
+      console.log("Attempting to start the conversation...");
+
+      // Start the conversation
+      const conversation = await Conversation.startSession({
+        agentId: "HIKMybnhQi2KD0DfCTQs", // Replace with your agent ID
+        onConnect: () => {
+          console.log("Conversation started.");
+          setConnectionStatus("Connected");
+          setShowPostCall(false); // Hide PostCallEngagement when a new conversation starts
+        },
+        onDisconnect: () => {
+          console.log("Conversation stopped.");
+          setConnectionStatus("Disconnected");
+          setShowPostCall(true); // Show PostCallEngagement when the conversation stops
+        },
+        onError: (error) => {
+          console.error("Error:", error);
+        },
+        onModeChange: (mode) => {
+          console.log(`Agent is now ${mode.mode === "speaking" ? "Speaking" : "Listening"}`);
+          setAgentStatus(mode.mode === "speaking" ? "Speaking" : "Listening");
+        },
+      });
+
+      conversationRef.current = conversation;
+    } catch (error) {
+      console.error("Failed to start conversation:", error);
+    }
+  };
+
+  const stopConversation = async () => {
+    if (conversationRef.current) {
+      console.log("Stopping the conversation...");
+      await conversationRef.current.endSession();
+      conversationRef.current = null;
+      setConnectionStatus("Disconnected");
+      setAgentStatus("Idle");
+      setShowPostCall(true); // Show PostCallEngagement when manually stopped
+    }
+  };
+
+  const toggleConversation = async () => {
+    if (connectionStatus === "Disconnected") {
+      await startConversation();
+    } else {
+      await stopConversation();
+    }
+  };
+
   useEffect(() => {
     const script = loadScript();
-
-    // Listen for the widget's call button click
-    const handleWidgetEvents = (event: Event) => {
-      if ((event as CustomEvent).detail?.type === 'call-started') {
-        setIsSpeaking(true);
-      } else if ((event as CustomEvent).detail?.type === 'call-ended') {
-        setIsSpeaking(false);
-      }
-    };
-
-    window.addEventListener('elevenlabs-convai', handleWidgetEvents);
 
     return () => {
       if (script && script.parentNode) {
         script.parentNode.removeChild(script);
       }
-      window.removeEventListener('elevenlabs-convai', handleWidgetEvents);
     };
   }, [loadScript]);
 
   return (
-    <div className="relative mb-12" role="region" aria-label="Santa's Chat Interface">
+    <div className="relative h-full flex items-center justify-center" role="region" aria-label="Santa's Chat Interface">
       <VoiceAnimation isActive={isSpeaking} />
-      
-      <div 
-        className="relative w-full h-[500px] rounded-xl overflow-hidden bg-white/5 border-2 border-red-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-red-500/30"
+  
+      <div
+        className="relative w-full h-full flex items-center justify-center rounded-xl overflow-hidden bg-white/5 border-2 border-red-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-red-500/30"
         role="application"
         aria-busy={isLoading}
       >
-        {!hasPaid && <PaywallOverlay onPaymentSuccess={() => setHasPaid(true)} />}
-
-        {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm z-30">
-            <div className="flex flex-col items-center gap-3">
-              <Loader2 className="w-8 h-8 text-red-500 animate-spin" />
-              <p className="text-white text-sm">Loading Santa's workshop...</p>
-            </div>
-          </div>
-        )}
-
-        {error && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm z-30">
-            <div className="bg-red-900/80 p-4 rounded-lg max-w-md text-center">
-              <p className="text-white">{error}</p>
+        {isLoading && <WidgetLoader />}
+        {error && <WidgetError error={error} onRetry={loadScript} />}
+        {isSpeaking && <SpeakingIndicator />}
+        {showPostCall && <PostCallEngagement onClose={() => setShowPostCall(false)} />}
+  
+        <div className="mt-4 flex flex-col items-center">
+          <div
+            className="relative flex items-center p-4 rounded-full bg-white shadow-md"
+            style={{
+              width: "300px",
+              background: "linear-gradient(to right, #ffffff, #f0f0f0)",
+              boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <img
+              src="src/assets/image-3_720.jpg" // Updated image path
+              alt="Santa"
+              className="w-20 h-20 rounded-full mr-4"
+            />
+            <div className="flex flex-col items-start">
+              <p className="text-sm text-gray-600">
+                {connectionStatus === "Disconnected" ? "Incoming Call: North Pole" : "Talk to interrupt"}
+              </p>
               <button
-                onClick={() => loadScript()}
-                className="mt-4 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+                onClick={toggleConversation}
+                className={`mt-1 px-4 py-2 rounded-full ${
+                  connectionStatus === "Disconnected"
+                    ? "bg-black text-white" // For "Ring, Ring. It's Santa!"
+                    : "bg-white border border-gray-300 text-black" // For "Bye Santa!"
+                }`}
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                }}
               >
-                Try Again
+                {connectionStatus === "Disconnected" ? (
+                  <>
+                    <FaPhone className="inline mr-2" />
+                    Ring, Ring. It's Santa!
+                  </>
+                ) : (
+                  <>
+                    <FaPhoneSlash className="inline mr-2" />
+                    Bye Santa!
+                  </>
+                )}
               </button>
             </div>
           </div>
-        )}
-
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10">
-          {isSpeaking && (
-            <div className="flex items-center gap-2 bg-red-500/20 px-3 py-1 rounded-full">
-              <Mic className="w-4 h-4 text-red-500 animate-pulse" />
-              <span className="text-sm text-white">Speaking to Santa...</span>
-            </div>
-          )}
-        </div>
-
-        <div className={`transition-opacity duration-300 ${hasPaid ? 'opacity-100' : 'opacity-0'}`}>
-          <elevenlabs-convai 
-            agent-id="HIKMybnhQi2KD0DfCTQs"
-            className="w-full h-full"
-            style={{
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-              top: 0,
-              left: 0
-            }}
-          ></elevenlabs-convai>
         </div>
       </div>
     </div>

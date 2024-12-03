@@ -1,5 +1,5 @@
 import React from 'react';
-import { ElevenLabsWidget } from './ElevenLabsWidget';
+import { ElevenLabsWidget } from './chat/ElevenLabsWidget';
 
 export function ChatInterface() {
   return (
@@ -24,7 +24,7 @@ export function ChatInterface() {
       </div>
 
       <div className="w-full max-w-4xl mx-auto px-4">
-        <ElevenLabsWidget />
+        <ElevenLabsWidget skipPaywall={true}/>
       </div>
     </div>
   );
