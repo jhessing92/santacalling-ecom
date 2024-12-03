@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ElevenLabsWidget } from '../components/chat/ElevenLabsWidget';
+import { useNavigate } from 'react-router-dom';
 import { PaywallOverlay } from '../components/payment/PaywallOverlay';
 import { CallPreparation } from '../components/chat/CallPreparation';
+import { usePayment } from '../hooks/usePayment';
 
 export function SantaCallPage() {
+  const navigate = useNavigate();
   const [hasPaid, setHasPaid] = useState(false);
   const [isReady, setIsReady] = useState(false);
-  const [showWidget, setShowWidget] = useState(false);
+
+  usePayment({
+    onSuccess: () => setHasPaid(true),
+    onError: (error) => console.error('Payment error:', error)
+  });
 
   const handlePaymentSuccess = () => {
     setHasPaid(true);
@@ -15,7 +20,7 @@ export function SantaCallPage() {
 
   const handleReadyForCall = () => {
     setIsReady(true);
-    setShowWidget(true);
+    navigate('/chat');
   };
 
   return (
@@ -26,13 +31,7 @@ export function SantaCallPage() {
             <PaywallOverlay onPaymentSuccess={handlePaymentSuccess} />
           ) : !isReady ? (
             <CallPreparation onReady={handleReadyForCall} />
-          ) : (
-            <div className="flex flex-col items-center space-y-6">
-              <div className="relative w-full h-[500px]">
-                <ElevenLabsWidget skipPaywall={true} />
-              </div>
-            </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
