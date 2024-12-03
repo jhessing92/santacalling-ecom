@@ -16,7 +16,7 @@ export function VoiceAnimation({ isActive }: VoiceAnimationProps) {
       {[...Array(4)].map((_, i) => (
         <div
           key={i}
-          className="w-2 h-8 bg-red-500 rounded-full"
+          className="w-2 h-8 bg-green-500 rounded-full"
           style={{
             animation: `soundWave 1s ease-in-out infinite`,
             animationDelay: `${i * 0.1}s`,
